@@ -2,7 +2,7 @@
   "builders": [
     {
       "type": "lxd",
-      "name": "lxd-xenial",
+      "name": "lxd-ubuntu",
       "image": "ubuntu:16.04",
       "output_image": "devany",
       "publish_properties": {
@@ -14,7 +14,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo yum -y update",
+        "apt-get update",
         "apt-get install -y software-properties-common:",
         "add-apt-repository ppa:tsl0922/ttyd-dev -y",
         "apt-get update",
