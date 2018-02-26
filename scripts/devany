@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+
+use Getopt::Long;
+use File::Spec;
+
+my $username = getpwuid($<);
+my $help = 0;
+
+GetOptions(
+  'file=s' => \ my $file,
+  'link=s'   => \ my $link,
+  'help'     =>  \$help,
+);
+
+my $session_id = `cat ~/.devany`;
+chomp $session_id;
+my $epoch_time = time();
+
+if($help){
+  show_help();
+  
+}elsif($file){
+  my $file_path = File::Spec->rel2abs( $file ) ;
+  
+  # Create a file if it doesn't exist    
+  unless(-e $file_path){  
+    print "$file_path does not exist, creating...\n";
+    open my $fc, ">", $file_path;  
+    close $fc;    
+  }  
+  $file_path =~ s/\/home\/$username\///;
+
+  # Open file by editor
+  print "devany|file|$file_path|$epoch_time|$session_id\n";  
+
+}elsif($link){
+
+  # Open link by browser
+  print "devany|link|$link|$epoch_time|$session_id\n";
+
+}else{
+  show_help();
+}
+
+
+sub show_help(){
+  print "Usage:\n";
+  print "> devany -file README.md\n";
+  print "> devany -link https://www.google.com\n";
+}
