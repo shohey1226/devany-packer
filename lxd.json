@@ -73,7 +73,7 @@
     {
       "type": "file",
       "source": "scripts/run.sh",
-      "destination": "/tmp/run.sh"
+      "destination": "/run.sh"
     },
     {
       "type": "shell",

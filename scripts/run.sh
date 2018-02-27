@@ -10,6 +10,9 @@ htpasswd -cb /etc/apache2/webdav.password $USERNAME $PASSWORD
 chown root:$USERNAME /etc/apache2/webdav.password
 chmod 640 /etc/apache2/webdav.password
 
+chmod 644 /etc/apache2/sites-available/proxy.conf 
+chmod 644 /etc/apache2/sites-available/webdav.conf
+
 mkdir -p /var/tmp/run
 mkdir -p /var/tmp/lock/apache2
 mkdir -p /var/tmp/log/apache2
