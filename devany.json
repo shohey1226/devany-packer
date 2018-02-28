@@ -56,27 +56,28 @@
     },
     {
       "type": "file",
-      "source": "conf",
+      "source": "conf/",
       "destination": "/tmp"
     },
     {
       "type": "file",
-      "source": "scripts",
+      "source": "scripts/",
       "destination": "/tmp"
     },
     {
       "type": "shell",
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "inline": [
-        "cp /tmp/conf/apache2/webdav.conf /etc/apache2/sites-available/webdav.conf",
-        "cp /tmp/conf/apache2/proxy.conf /etc/apache2/sites-available/proxy.conf",
-        "cp /tmp/conf/apache2/envvars /etc/apache2/envvars",
-        "cp /tmp/conf/supervisor/apache.conf /etc/supervisor/conf.d/apache.conf",
-        "cp /tmp/conf/supervisor/ttyd.conf /etc/supervisor/conf.d/ttyd.conf",
-        "cp /tmp/conf/supervisor/supervisor.service /etc/systemd/system/multi-user.target.wants/supervisor.service",
-        "cp /tmp/conf/supervisor/devany.env /etc/default/devany.env",
-        "cp /tmp/scripts/run.sh /run.sh",
-        "cp /tmp/scripts/devany /usr/local/bin/devany",
+	"find /tmp",
+        "cp /tmp/apache2/webdav.conf /etc/apache2/sites-available/webdav.conf",
+        "cp /tmp/apache2/proxy.conf /etc/apache2/sites-available/proxy.conf",
+        "cp /tmp/apache2/envvars /etc/apache2/envvars",
+        "cp /tmp/supervisor/apache.conf /etc/supervisor/conf.d/apache.conf",
+        "cp /tmp/supervisor/ttyd.conf /etc/supervisor/conf.d/ttyd.conf",
+        "cp /tmp/supervisor/supervisor.service /etc/systemd/system/multi-user.target.wants/supervisor.service",
+        "cp /tmp/supervisor/devany.env /etc/default/devany.env",
+        "cp /tmp/run.sh /run.sh",
+        "cp /tmp/devany /usr/local/bin/devany",
         "a2ensite webdav",
         "a2ensite proxy"
       ]
