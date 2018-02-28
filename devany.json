@@ -1,0 +1,85 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}"
+  },
+  "builders": [
+    {
+      "type": "lxd",
+      "name": "lxd",
+      "image": "ubuntu:16.04",
+      "output_image": "devany",
+      "publish_properties": {
+        "description": "devany image for lxd"
+      }
+    },
+    {
+      "type": "amazon-ebs",
+      "name": "ami",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "ap-northeast-1",
+      "source_ami_filter": {
+        "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+        "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      },
+      "instance_type": "t2.micro",
+      "ami_name": "devany {{timestamp}}",
+      "ssh_username": "ubuntu"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
+      "inline": [
+     	"sleep 10",
+        "apt-get update",
+        "apt-get install -y software-properties-common:",
+        "add-apt-repository ppa:tsl0922/ttyd-dev -y",
+        "apt-get update",
+        "apt-get install -y ttyd",
+        "apt-get install -y apache2 apache2-utils",
+        "a2enmod dav dav_fs proxy rewrite proxy_http proxy_wstunnel",
+        "a2dissite 000-default",
+        "sed -i -e 's_80_8888_g' /etc/apache2/ports.conf",
+        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux vim-nox emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev apache2-utils git libxml2-dev sshfs supervisor sysv-rc-conf",
+        "locale-gen en_US.UTF-8",
+        "sysv-rc-conf apache2 off",
+        "/etc/init.d/apache2 stop"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "conf",
+      "destination": "/tmp"
+    },
+    {
+      "type": "file",
+      "source": "scripts",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
+      "inline": [
+        "cp /tmp/conf/apache2/webdav.conf /etc/apache2/sites-available/webdav.conf",
+        "cp /tmp/conf/apache2/proxy.conf /etc/apache2/sites-available/proxy.conf",
+        "cp /tmp/conf/apache2/envvars /etc/apache2/envvars",
+        "cp /tmp/conf/supervisor/apache.conf /etc/supervisor/conf.d/apache.conf",
+        "cp /tmp/conf/supervisor/ttyd.conf /etc/supervisor/conf.d/ttyd.conf",
+        "cp /tmp/conf/supervisor/supervisor.service /etc/systemd/system/multi-user.target.wants/supervisor.service",
+        "cp /tmp/conf/supervisor/devany.env /etc/default/devany.env",
+        "cp /tmp/scripts/run.sh /run.sh",
+        "cp /tmp/scripts/devany /usr/local/bin/devany",
+        "a2ensite webdav",
+        "a2ensite proxy"
+      ]
+    }
+  ]
+}
