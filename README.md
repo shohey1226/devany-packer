@@ -9,3 +9,4 @@ $ packer build -only=lxd devany.json
 ## References
 
 * AWS Regiion: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
+* Google zone: https://cloud.google.com/compute/docs/regions-zones/regions-zones

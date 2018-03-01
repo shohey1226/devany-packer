@@ -1,9 +1,19 @@
 {
   "variables": {
     "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
-    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}"
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "google_account_file": "{{env `GOOGLE_ACCOUNT_FILE`}}"
   },
   "builders": [
+    {
+      "name": "google",
+      "type": "googlecompute",
+      "account_file": "{{user `google_account_file`}}",
+      "project_id": "devany-191213",
+      "source_image_family": "ubuntu-1604-lts",
+      "ssh_username": "packer",
+      "zone": "asia-northeast1-a"
+    },
     {
       "type": "lxd",
       "name": "lxd",
@@ -68,7 +78,7 @@
       "type": "shell",
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "inline": [
-	"find /tmp",
+	    "find /tmp",
         "cp /tmp/apache2/webdav.conf /etc/apache2/sites-available/webdav.conf",
         "cp /tmp/apache2/proxy.conf /etc/apache2/sites-available/proxy.conf",
         "cp /tmp/apache2/envvars /etc/apache2/envvars",
