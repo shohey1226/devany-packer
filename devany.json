@@ -2,7 +2,8 @@
   "variables": {
     "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
     "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
-    "google_account_file": "{{env `GOOGLE_ACCOUNT_FILE`}}"
+    "google_account_file": "{{env `GOOGLE_ACCOUNT_FILE`}}",
+    "region": "{{env `REGION`}}"
   },
   "builders": [
     {
@@ -12,7 +13,7 @@
       "project_id": "devany-191213",
       "source_image_family": "ubuntu-1604-lts",
       "ssh_username": "packer",
-      "zone": "asia-northeast1-a"
+      "zone": "{{user `region`}}"
     },
     {
       "type": "lxd",
@@ -28,7 +29,7 @@
       "name": "ami",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region": "ap-northeast-1",
+      "region": "{{user `region`}}",
       "source_ami_filter": {
         "filters": {
         "virtualization-type": "hvm",
