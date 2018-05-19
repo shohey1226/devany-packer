@@ -6,6 +6,8 @@ echo "export HOME=/home/$USERNAME" >> /home/$USERNAME/.bashrc
 
 # Enable user to sudo 
 usermod -aG sudo $USERNAME
+# no need to ask password
+echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 htpasswd -cb /etc/apache2/webdav.password $USERNAME $PASSWORD
 chown root:$USERNAME /etc/apache2/webdav.password
