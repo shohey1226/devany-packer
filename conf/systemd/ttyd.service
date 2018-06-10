@@ -1,0 +1,13 @@
+[Unit]
+Description = ttyd daemon 
+
+[Service]
+EnvironmentFile=/etc/default/devany.env
+WorkingDirectory=~
+ExecStart = /usr/bin/ttyd -c ${USERNAME}:${PASSWORD} -p 8080 /bin/bash
+ExecStop= /bin/kill ${MAINPID}
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target

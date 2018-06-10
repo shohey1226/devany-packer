@@ -12,6 +12,7 @@
       "account_file": "{{user `google_account_file`}}",
       "project_id": "devany-191213",
       "source_image_family": "ubuntu-1604-lts",
+      "image_name": "devany-{{timestamp}}",
       "ssh_username": "packer",
       "zone": "{{user `region`}}"
     },
@@ -55,14 +56,8 @@
         "add-apt-repository ppa:tsl0922/ttyd-dev -y",
         "apt-get update",
         "apt-get install -y ttyd",
-        "apt-get install -y apache2 apache2-utils",
-        "a2enmod dav dav_fs proxy rewrite proxy_http proxy_wstunnel",
-        "a2dissite 000-default",
-        "sed -i -e 's_80_8888_g' /etc/apache2/ports.conf",
-        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux vim-nox emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev apache2-utils git libxml2-dev sshfs supervisor sysv-rc-conf",
-        "locale-gen en_US.UTF-8",
-        "sysv-rc-conf apache2 off",
-        "/etc/init.d/apache2 stop"
+        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux vim-nox emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev libxml2-dev sshfs",
+        "locale-gen en_US.UTF-8"
       ]
     },
     {
@@ -80,17 +75,18 @@
       "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
       "inline": [
 	    "find /tmp",
-        "cp /tmp/apache2/webdav.conf /etc/apache2/sites-available/webdav.conf",
-        "cp /tmp/apache2/proxy.conf /etc/apache2/sites-available/proxy.conf",
-        "cp /tmp/apache2/envvars /etc/apache2/envvars",
-        "cp /tmp/supervisor/apache.conf /etc/supervisor/conf.d/apache.conf",
-        "cp /tmp/supervisor/ttyd.conf /etc/supervisor/conf.d/ttyd.conf",
-        "cp /tmp/supervisor/supervisor.service /etc/systemd/system/multi-user.target.wants/supervisor.service",
-        "cp /tmp/supervisor/devany.env /etc/default/devany.env",
+        "chmod +x /tmp/install_httpd.sh",
+        "/tmp/install_httpd.sh",
+        "mkdir -p /etc/systemd/system/ttyd.service.d",
+        "cp /tmp/httpd/httpd.conf /opt/devany/httpd/conf/",
+        "cp /tmp/httpd/webdav.conf /opt/devany/httpd/conf/conf.d/",
+        "cp /tmp/httpd/proxy.conf /opt/devany/httpd/conf/conf.d/",
+        "cp /tmp/systemd/httpd.service /etc/systemd/system/",
+        "cp /tmp/systemd/ttyd.service /etc/systemd/system/",
+        "cp /tmp/systemd/override.conf /etc/systemd/system/ttyd.service.d/",
+        "cp /tmp/systemd/devany.env /etc/default/devany.env",
         "cp /tmp/run.sh /run.sh",
-        "cp /tmp/devany /usr/local/bin/devany",
-        "a2ensite webdav",
-        "a2ensite proxy"
+        "cp /tmp/devany /usr/local/bin/devany"
       ]
     }
   ]

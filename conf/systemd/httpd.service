@@ -1,0 +1,12 @@
+[Unit]
+Description = httpd daemon for devany
+
+[Service]
+WorkingDirectory=/opt/devany/httpd
+Type=forking
+ExecStart = /opt/devany/httpd/bin/apachectl start 
+ExecStop= /opt/devany/httpd/bin/apachectl stop 
+Restart = always
+
+[Install]
+WantedBy = multi-user.target
