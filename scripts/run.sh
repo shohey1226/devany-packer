@@ -13,8 +13,8 @@ htpasswd -cb /opt/devany/httpd/webdav.password $USERNAME $PASSWORD
 chown root:$USERNAME  /opt/devany/httpd/webdav.password
 chmod 640 /opt/devany/httpd/webdav.password
 
-chmod 644 /etc/apache2/sites-available/proxy.conf 
-chmod 644 /etc/apache2/sites-available/webdav.conf
+chmod 644 /opt/devany/httpd/conf/conf.d/proxy.conf
+chmod 644 /opt/devany/httpd/conf/conf.d/webdav.conf
 
 # change superviser env variables
 sed -i -e "s|CHANGE_USERNAME_LATER|${USERNAME}|" /etc/default/devany.env
