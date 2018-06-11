@@ -56,7 +56,7 @@
         "add-apt-repository ppa:tsl0922/ttyd-dev -y",
         "apt-get update",
         "apt-get install -y ttyd",
-        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux vim-nox emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev libxml2-dev sshfs",
+        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux vim-nox emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev libxml2-dev sshfs apache2-utils",
         "locale-gen en_US.UTF-8"
       ]
     },
@@ -79,8 +79,8 @@
         "/tmp/install_httpd.sh",
         "mkdir -p /etc/systemd/system/ttyd.service.d",
         "cp /tmp/httpd/httpd.conf /opt/devany/httpd/conf/",
-        "cp /tmp/httpd/webdav.conf /opt/devany/httpd/conf/conf.d/",
-        "cp /tmp/httpd/proxy.conf /opt/devany/httpd/conf/conf.d/",
+        "cp /tmp/httpd/conf.d/webdav.conf /opt/devany/httpd/conf/conf.d/",
+        "cp /tmp/httpd/conf.d/proxy.conf /opt/devany/httpd/conf/conf.d/",
         "cp /tmp/systemd/httpd.service /etc/systemd/system/",
         "cp /tmp/systemd/ttyd.service /etc/systemd/system/",
         "cp /tmp/systemd/override.conf /etc/systemd/system/ttyd.service.d/",
