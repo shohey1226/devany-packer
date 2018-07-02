@@ -1,4 +1,4 @@
-[Packer] is the tool to build images. Using packer, you can create devany image.
+[Packer](https://www.packer.io/) is the tool to build images. Using packer, you can create devany image.
 
 ```
 # create Docker image 
