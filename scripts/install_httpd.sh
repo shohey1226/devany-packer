@@ -19,9 +19,9 @@ make install
 
 # install httpd
 cd /tmp
-wget http://www.us.apache.org/dist//httpd/httpd-2.4.33.tar.gz
-tar zxvf httpd-2.4.33.tar.gz
-cd httpd-2.4.33
+wget http://www.us.apache.org/dist//httpd/httpd-2.4.34.tar.gz
+tar zxvf httpd-2.4.34.tar.gz
+cd httpd-2.4.34
 ./configure --prefix=/opt/devany/httpd --with-apr=/opt/devany/apr --with-apr-util=/opt/devany/apr-util
 make
 make install

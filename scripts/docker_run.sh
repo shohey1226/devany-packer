@@ -1,8 +1,7 @@
 #!/bin/bash
 
 useradd -m -d /home/$USERNAME -s /bin/bash -p $(echo $PASSWORD | openssl passwd -1 -stdin) $USERNAME
-chown -R $USERNAME:$USERNAME /home/$USERNAME &
-echo "export HOME=/home/$USERNAME" >> /home/$USERNAME/.bashrc
+chown $USERNAME:$USERNAME /home/$USERNAME 
 
 # Enable user to sudo 
 usermod -aG sudo $USERNAME
