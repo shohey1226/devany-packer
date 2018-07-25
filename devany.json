@@ -68,7 +68,10 @@
         "add-apt-repository ppa:tsl0922/ttyd-dev -y",
         "apt-get update",
         "apt-get install -y ttyd",
-        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux vim-nox emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev libxml2-dev sshfs apache2-utils",
+        "apt-get install -y --no-install-recommends build-essential libreadline-dev ca-certificates curl git libssl-dev tmux emacs-nox make less iputils-ping net-tools wget dnsutils locales sudo file python-setuptools libsqlite3-dev g++ curl libssl-dev libxml2-dev sshfs apache2-utils",
+        "add-apt-repository ppa:jonathonf/vim -y",
+        "apt-get update",
+        "apt install vim -y",
         "locale-gen en_US.UTF-8"
       ]
     },
