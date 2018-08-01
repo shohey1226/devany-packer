@@ -1,5 +1,31 @@
 #!/bin/bash
 
+# Handle back up
+if [ -f /etc/passwd.org ]; then
+  cp /etc/passwd.org /etc/passwd
+else
+  cp /etc/passwd /etc/passwd.org
+fi
+
+if [ -f /etc/shadow.org ]; then
+  cp /etc/shadow.org /etc/shadow
+else
+  cp /etc/shadow /etc/shadow.org
+fi
+
+if [ -f /etc/group.org ]; then
+  cp /etc/group.org /etc/group
+else
+  cp /etc/group /etc/group.org
+fi
+
+if [ -f /etc/sudoers.org ]; then
+  cp /etc/sudoers.org /etc/sudoers
+else
+  cp /etc/sudoers /etc/sudoers.org
+fi
+
+
 useradd -m -d /home/$USERNAME -s /bin/bash -p $(echo $PASSWORD | openssl passwd -1 -stdin) $USERNAME
 chown $USERNAME:$USERNAME /home/$USERNAME 
 
@@ -16,9 +42,19 @@ chmod 644 /opt/devany/httpd/conf/conf.d/proxy.conf
 chmod 644 /opt/devany/httpd/conf/conf.d/webdav.conf
 
 # httpd
+if [ -f /opt/devany/httpd/conf/httpd.conf.org ]; then
+  cp /opt/devany/httpd/conf/httpd.conf.org /opt/devany/httpd/conf/httpd.conf 
+else
+  cp /opt/devany/httpd/conf/httpd.conf /opt/devany/httpd/conf/httpd.conf.org 
+fi
 sed -i -e "s|CHANGE_USERNAME_LATER|${USERNAME}|g" /opt/devany/httpd/conf/httpd.conf
 
 # httpd - webdav
+if [ -f /opt/devany/httpd/conf/conf.d/webdav.conf.org ]; then
+  cp /opt/devany/httpd/conf/conf.d/webdav.conf.org /opt/devany/httpd/conf/conf.d/webdav.conf 
+else
+  cp /opt/devany/httpd/conf/conf.d/webdav.conf /opt/devany/httpd/conf/conf.d/webdav.conf.org 
+fi
 sed -i -e "s|CHANGE_USERNAME_LATER|${USERNAME}|g" /opt/devany/httpd/conf/conf.d/webdav.conf
 
 cd $HOME
